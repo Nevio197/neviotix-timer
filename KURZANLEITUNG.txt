@@ -1,0 +1,50 @@
+NEVIOTIX TIMER · Dein eigenes OBS-Add-on
+
+BEDIENUNG
+Im Dock die Dauer einstellen und übernehmen. Mit Start beginnen, mit Pause
+anhalten und mit Fortsetzen weiterlaufen lassen. Zurücksetzen nimmt die
+eingestellte Ausgangszeit. +30 Sekunden und +1 Minute funktionieren auch
+während des Countdowns. Schnellzeiten und „Bis Uhrzeit“ findest du im Dock.
+
+Unter „Look“ kannst du Stil, Farbe, Größe, Beschriftung und Fortschrittsbalken
+anpassen. Unter „Automatik“ sind optionale Szenen-Aktionen verfügbar.
+Ohne ausgewählte Automatik startet oder wechselt der Timer keine Szene.
+
+Im Dock: Leertaste = Start/Pause, R = Zurücksetzen.
+Beim Bearbeiten eines Eingabefeldes bleiben diese Tastenkürzel ausgeschaltet.
+
+GLOBALE OBS-HOTKEYS
+OBS → Einstellungen → Hotkeys → nach „NEVIOTIX Timer“ suchen.
+Du kannst Tasten für Start/Pause, Zurücksetzen, +1 Minute und −1 Minute vergeben.
+Es sind absichtlich keine festen Tasten vorbelegt.
+
+UPDATES
+Im Tab „Updates“ mit „Nach Updates suchen“ nach einer neuen Version suchen.
+„Update installieren“ lädt die stabile GitHub-Version und prüft die Dateien,
+bevor der Timer-Dienst kurz neu startet. Der Countdown kommt pausiert zurück.
+Deine Timer-Einstellungen und OBS-Konfiguration bleiben erhalten.
+Updates werden erst durch deinen Klick installiert.
+
+Repository: https://github.com/nevio197/neviotix-timer
+
+START UND VERBINDUNG
+Der Dienst startet beim Laden des OBS-Skripts neviotix-timer.lua im Hintergrund.
+Alternativ start.vbs im Timer-Ordner doppelt anklicken. Es öffnet kein Terminal.
+Ein bereits laufender Timer-Dienst wird weiterverwendet.
+
+Dock-Adresse:       http://127.0.0.1:18771/
+Starting-Anzeige:   http://127.0.0.1:18771/overlay/starting
+BRB-Anzeige:        http://127.0.0.1:18771/overlay/brb
+
+Bei manueller Einrichtung: OBS → Docks → Benutzerdefinierte Browser-Docks.
+Name „NEVIOTIX Timer“ und die Dock-Adresse eintragen, danach unten andocken.
+Die Anzeigen als Browser-Quelle hinzufügen, jeweils 600 × 160 Pixel.
+Der Hintergrund der Anzeigen ist transparent.
+
+TECHNIK
+Dies ist ein eigens erstelltes lokales Add-on mit OBS-Browser-Dock und Lua-
+Integration. Es ist keine native DLL. Der Quellcode liegt im Timer-Ordner.
+Benötigt OBS Studio mit Browser-Quellen und vorhandenes Node.js.
+Der Timer-Dienst lauscht ausschließlich auf 127.0.0.1:18771.
+Einstellungen liegen in %APPDATA%\NEVIOTIX-Timer\state.json.
+Fehler des Starters stehen in %APPDATA%\NEVIOTIX-Timer\launcher.log.

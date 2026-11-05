@@ -1,0 +1,22 @@
+{
+  "name": "neviotix-timer",
+  "version": "1.1.0",
+  "description": "An owned local OBS countdown dock with transparent overlays and a GitHub updater.",
+  "private": true,
+  "license": "MIT",
+  "author": "nevio197",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nevio197/neviotix-timer.git"
+  },
+  "homepage": "https://github.com/nevio197/neviotix-timer",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node launch.cjs",
+    "test": "node --test core.test.cjs server.test.cjs updater.test.cjs",
+    "check": "node scripts/check.cjs",
+    "package": "node scripts/package-release.cjs"
+  }
+}

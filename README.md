@@ -1,59 +1,164 @@
 # NEVIOTIX Timer
 
-Ein eigener lokaler Countdown für OBS: kompaktes Browser-Dock, transparente Starting-/BRB-Anzeigen, Lua-Hotkeys und ein Updater für GitHub Releases.
+**Deine Zeit. Dein Stream.** Ein Countdown für OBS, den du direkt im Dock bedienst und als transparente Anzeige in deine Szenen legst. Für Starting Soon, kurze Pausen und alles, was pünktlich losgehen soll.
 
-**Version 1.1.0 · Windows · Node.js 24 oder neuer · MIT**
+**Windows · OBS Studio · Node.js 24+ · kostenlos unter MIT-Lizenz**
 
-## Funktionen
+### [Windows-ZIP herunterladen](https://github.com/Nevio197/neviotix-timer/releases/latest) · [Installation](#installation-schritt-für-schritt) · [Hilfe](#wenn-etwas-nicht-klappt)
 
-- Dauer oder Countdown bis zu einer Uhrzeit, Schnellzeiten und Start/Pause/Fortsetzen.
-- Während des Countdowns Zeit hinzufügen oder abziehen, optional nach 00:00 weiterzählen.
-- Minimal, Neon und Glass; Farbe, Zifferngröße, Beschriftung und Fortschrittsbalken live ändern.
-- Gemeinsamer Timerstand für alle Anzeigen und Szenen.
-- Optionale Szenen-Automatik: beim Aktivieren einer Szene starten oder bei 00:00 wechseln.
-- OBS-Hotkeys für Start/Pause, Reset und ±1 Minute.
-- Updates auf Knopfdruck aus diesem Repository, mit SHA-256-Prüfung vor dem Ersetzen von Dateien.
+![Die drei echten Overlay-Ansichten Minimal, Neon und Glass mit frei wählbarem Magenta-Akzent. Das Schachbrett macht transparente Flächen sichtbar.](docs/screenshots/overlay-styles.png)
 
-Das Add-on besteht aus eigenem JavaScript-, HTML-, CSS- und Lua-Code. Es nutzt die Browser-Dock- und Skript-Funktionen von OBS; es ist keine native DLL.
+*Echte Timeransichten mit Beispieldaten. Das Schachbrett ist nur Vorschauhintergrund und erscheint nicht in OBS. Die Akzentfarbe kannst du selbst wählen.*
 
-## Einrichtung
+## Das bekommst du
 
-1. [Node.js 24 oder neuer](https://nodejs.org/) und [OBS Studio](https://obsproject.com/) mit Browser-Quellen installieren.
-2. Das Windows-ZIP aus den [Releases](https://github.com/nevio197/neviotix-timer/releases/latest) nach `%LOCALAPPDATA%\NEVIOTIX-Timer` entpacken. Die Dateien wie `server.cjs` müssen direkt in diesem Ordner liegen.
-3. `start.vbs` doppelt anklicken. Der Dienst startet ohne Terminalfenster.
-4. In OBS unter **Werkzeuge → Skripte → +** die Datei `neviotix-timer.lua` aus diesem Ordner hinzufügen. Dadurch startet der Dienst künftig mit dieser Szenensammlung.
-5. Unter **Docks → Benutzerdefinierte Browser-Docks** einen Dock namens `NEVIOTIX Timer` mit `http://127.0.0.1:18771/` anlegen und unten andocken.
-6. Die gewünschte Anzeige als Browser-Quelle hinzufügen, Größe **600 × 160 Pixel**:
+- **Ein Dock zum Bedienen:** Dauer wählen, starten, pausieren oder spontan Zeit hinzufügen.
+- **Transparente Anzeigen:** Starting Soon und BRB nutzen denselben Timerstand.
+- **Drei Looks:** Minimal, Neon und Glass. Farbe, Beschriftung, Zifferngröße und Fortschrittsbalken sind anpassbar.
+- **Flexible Zeit:** feste Dauer oder Countdown bis zu einer Uhrzeit; auf Wunsch nach 00:00 weiterzählen.
+- **Optionale OBS-Hotkeys und Szenen-Automatik.** Ohne ausgewählte Automatik wechselt der Timer keine Szene.
+- **Manuelle Updates:** direkt im Dock nach neuen GitHub-Releases suchen und sie per Klick installieren.
 
-| Anzeige | Adresse |
+<table>
+  <tr><th>Timer bedienen</th><th>Look anpassen</th></tr>
+  <tr>
+    <td valign="top"><img src="docs/screenshots/timer-dock.png" width="440" alt="Timer-Dock mit fünf Minuten, Starttaste, Schnellzeiten und Tasten zum Hinzufügen oder Abziehen von Zeit."></td>
+    <td valign="top"><img src="docs/screenshots/timer-look.png" width="440" alt="Look-Einstellungen mit drei Designs, frei wählbarer Akzentfarbe, Zifferngröße, Beschriftung und Fortschrittsbalken."></td>
+  </tr>
+</table>
+
+## Installation Schritt für Schritt
+
+Du brauchst **Windows**, **[OBS Studio](https://obsproject.com/)** mit Browser-Quellen und **[Node.js 24 oder neuer](https://nodejs.org/)**. Falls Node.js noch fehlt: zuerst installieren. Du musst keinen Code bearbeiten und keine zusätzlichen npm-Pakete installieren.
+
+### 1. Timer herunterladen und entpacken
+
+Öffne die **[neueste Version](https://github.com/Nevio197/neviotix-timer/releases/latest)** und lade unter **Assets** die Datei **`NEVIOTIX-Timer-…-windows.zip`** herunter. Nimm das Windows-ZIP, nicht „Source code“.
+
+1. Drücke **Windows + R**, gib `%LOCALAPPDATA%` ein und bestätige mit Enter.
+2. Lege dort einen Ordner namens **`NEVIOTIX-Timer`** an.
+3. Entpacke den **gesamten Inhalt** des ZIPs in diesen Ordner.
+
+So muss die Ablage aussehen:
+
+```text
+%LOCALAPPDATA%\NEVIOTIX-Timer\
+├── start.vbs
+├── neviotix-timer.lua
+├── server.cjs
+├── package.json
+├── public\
+└── … weitere Dateien aus dem ZIP
+```
+
+`start.vbs` muss direkt im Timer-Ordner liegen. Starte den Timer nicht aus dem noch geöffneten ZIP.
+
+### 2. Timer einmal starten
+
+Klicke im Timer-Ordner doppelt auf **`start.vbs`**. Es erscheint absichtlich kein Terminalfenster.
+
+Öffne zum Gegencheck diese Adresse im Browser:
+
+```text
+http://127.0.0.1:18771/
+```
+
+Wenn du das Timer-Dock siehst und oben **„Verbunden“** steht, läuft der Timer.
+
+### 3. Automatischen Start mit OBS einrichten
+
+1. Öffne in OBS **Werkzeuge → Skripte**.
+2. Klicke auf **+** und wähle im Timer-Ordner **`neviotix-timer.lua`** aus.
+3. Schließe das Skripte-Fenster.
+
+Dadurch startet der Timer künftig beim Laden dieser OBS-Szenensammlung mit. Wenn das Skript schon in der Liste steht, musst du es nicht erneut hinzufügen. Für eine andere Szenensammlung fügst du es dort ebenfalls hinzu.
+
+### 4. Bedien-Dock in OBS hinzufügen
+
+1. Öffne **Docks → Benutzerdefinierte Browser-Docks**.
+2. Trage diese Werte ein und klicke auf **Anwenden**:
+
+| Feld | Eintrag |
 | --- | --- |
-| Starting Soon | `http://127.0.0.1:18771/overlay/starting` |
-| Be Right Back | `http://127.0.0.1:18771/overlay/brb` |
+| Dock-Name | `NEVIOTIX Timer` |
+| URL | `http://127.0.0.1:18771/` |
 
-Die Quellen haben einen transparenten Hintergrund. Die BRB-Anzeige verwendet beim Standardlabel automatisch „WIEDER DA IN“.
+Ziehe das neue Dock an die gewünschte Stelle in OBS. Hier bedienst du den Timer; diese Bedienoberfläche gehört nicht ins Streambild.
 
-Für weitere Szenensammlungen das Lua-Skript dort ebenfalls hinzufügen. Globale Tasten lassen sich unter **OBS → Einstellungen → Hotkeys → NEVIOTIX Timer** belegen. Im Dock funktionieren zusätzlich Leertaste und `R`, solange kein Eingabefeld bearbeitet wird.
+### 5. Countdown in deine Szene legen
 
-## Updates
+1. Wähle deine Starting-Soon-Szene aus.
+2. Klicke im Bereich **Quellen** auf **+ → Browser** und lege eine neue Quelle an.
+3. Lass **„Lokale Datei“ ausgeschaltet** und trage Folgendes ein:
 
-Im Tab **Updates** auf **Nach Updates suchen** klicken. Eine verfügbare stabile Version lässt sich mit **Update installieren** übernehmen. Der lokale Timer-Dienst wird dabei kurz neu gestartet; der Countdown wird pausiert wiederhergestellt. Während eines aktiven Streams oder einer Aufnahme wird die Installation blockiert.
+| Einstellung | Wert |
+| --- | --- |
+| URL | `http://127.0.0.1:18771/overlay/starting` |
+| Breite | `600` |
+| Höhe | `160` |
 
-Das Update prüft Repository, Version, Archivpfade und SHA-256-Werte. Installationsdateien werden gesichert und bei einem fehlgeschlagenen Austausch zurückgesetzt. Timer-Einstellungen unter `%APPDATA%\NEVIOTIX-Timer` und die OBS-Konfiguration bleiben außerhalb des Update-Pakets.
+Bestätige mit **OK** und verschiebe die Anzeige in deiner Szene. Der Hintergrund ist transparent; du brauchst keinen Chroma-Key.
 
-Es werden nur stabile Releases aus `nevio197/neviotix-timer` verwendet. Updates werden nicht ohne Klick installiert. Für Update-Prüfung und Download ist Internet erforderlich; der Countdown selbst läuft lokal.
+Für deine Pausenszene legst du eine weitere Browser-Quelle mit **600 × 160 Pixeln** an:
 
-## Lokale Daten
+```text
+http://127.0.0.1:18771/overlay/brb
+```
 
-- Dienst: nur `127.0.0.1:18771`, nicht das gesamte Netzwerk.
-- Einstellungen: `%APPDATA%\NEVIOTIX-Timer\state.json`.
-- Starterfehler: `%APPDATA%\NEVIOTIX-Timer\launcher.log`.
-- Szenen-Automatik nutzt die bestehende lokale OBS-WebSocket-Konfiguration. Deren Zugangsdaten bleiben auf dem Rechner und werden nicht an GitHub gesendet.
+Beim Standardlabel steht dort automatisch **„WIEDER DA IN“**. Beide Anzeigen zeigen dieselbe verbleibende Zeit.
 
-Dieses Repository und die Release-Pakete enthalten ausschließlich Add-on-Code und Dokumentation, keine persönlichen OBS-Szenen, Zugangsdaten oder Laufzeitdaten.
+### 6. Kurz ausprobieren
 
-## Entwicklung und Releases
+Wähle im Dock **1 Min.** und klicke auf **Starten**. Die Zeit muss im Dock und in deiner Szene herunterzählen. **Pausieren** hält sie an, **Zurücksetzen** stellt die gewählte Dauer wieder her.
 
-Keine zusätzlichen npm-Pakete nötig:
+Danach kannst du unter **Look** Farbe, Stil und Beschriftung einstellen. Fertig – für den normalen Countdown brauchst du keine weitere Verbindung oder Anmeldung.
+
+## Alle Adressen auf einen Blick
+
+| Wofür? | Adresse | In OBS hinzufügen als |
+| --- | --- | --- |
+| Timer bedienen | `http://127.0.0.1:18771/` | Benutzerdefiniertes Browser-Dock |
+| Starting Soon | `http://127.0.0.1:18771/overlay/starting` | Browser-Quelle, 600 × 160 |
+| Be Right Back | `http://127.0.0.1:18771/overlay/brb` | Browser-Quelle, 600 × 160 |
+
+## Im Alltag
+
+**Zeit einstellen:** Nutze die Schnellzeiten oder gib Stunden, Minuten und Sekunden ein und bestätige mit dem Haken. Mit **Uhrzeit** zählt der Timer bis zu einer gewählten Zielzeit.
+
+**Zeit ändern:** Die Tasten **±30 Sek.** und **±1 Min.** funktionieren auch während des Countdowns. Das Augen-Symbol blendet die Anzeige im Stream aus oder wieder ein.
+
+**Tastenkürzel:** Im fokussierten Dock startet oder pausiert die **Leertaste**, **R** setzt zurück. Beim Bearbeiten eines Eingabefelds bleiben diese Kürzel aus. Globale Tasten vergibst du unter **OBS → Einstellungen → Hotkeys → NEVIOTIX Timer**; es sind keine festen Tasten vorbelegt.
+
+**Szenen-Automatik:** Unter **Automatik** kannst du optional beim Öffnen einer Szene starten oder bei 00:00 in eine andere Szene wechseln. Dafür muss der lokale OBS-WebSocket-Server aktiviert sein. Der reine Countdown funktioniert auch ohne diese Verbindung.
+
+## Wenn etwas nicht klappt
+
+| Problem | Das hilft |
+| --- | --- |
+| `start.vbs` zeigt kein Fenster. | Das ist beabsichtigt. Öffne `http://127.0.0.1:18771/`, um den Start zu prüfen. |
+| Die Seite lädt nicht oder das Dock bleibt offline. | Prüfe, ob Node.js 24+ installiert ist und alle ZIP-Dateien vollständig entpackt sind. Starte danach `start.vbs` erneut. Details stehen in `%APPDATA%\NEVIOTIX-Timer\launcher.log`. |
+| Nach dem nächsten OBS-Start fehlt der Timer. | Prüfe unter **Werkzeuge → Skripte**, ob `neviotix-timer.lua` in der aktuell geladenen Szenensammlung eingetragen ist. |
+| Statt der Ziffern sehe ich die ganze Bedienoberfläche im Stream. | Die Quelle verwendet die Dock-URL. Trage dort `/overlay/starting` oder `/overlay/brb` ein. |
+| Die Anzeige ist leer. | Blende sie über das Augen-Symbol im Dock ein. Prüfe dann die Quellen-URL und die Größe 600 × 160. |
+| „OBS nicht verbunden“ steht unter Automatik. | Das betrifft die optionale Szenen-Automatik. Timer und Anzeige bleiben nutzbar; prüfe für automatische Szenenwechsel den lokalen OBS-WebSocket-Server. |
+| Ich sehe kein Glas- oder Neon-Design. | Wähle unter **Look** das gewünschte Design. Die Screenshots oben zeigen Magenta als frei gewähltes Beispiel; die Standardfarbe kann abweichen. |
+
+Noch ein Problem? **[Issue öffnen](https://github.com/Nevio197/neviotix-timer/issues)** und Windows-, OBS- und Timer-Version sowie die genaue Fehlermeldung angeben. Zugangsdaten und persönliche Konfigurationsdateien gehören nicht in den Bericht.
+
+## Updates und lokale Daten
+
+Im Tab **Updates** auf **Nach Updates suchen** klicken. Eine verfügbare stabile Version lässt sich mit **Update installieren** übernehmen. Der Dienst startet dabei kurz neu; der Countdown wird pausiert wiederhergestellt. Während eines aktiven Streams oder einer Aufnahme wird die Installation blockiert.
+
+Das Update prüft Repository, Version, Archivpfade und SHA-256-Werte. Es sichert Installationsdateien und setzt einen fehlgeschlagenen Austausch zurück. Updates werden ausschließlich nach deinem Klick installiert.
+
+- Der Timer läuft lokal auf **`127.0.0.1:18771`**, nicht im gesamten Netzwerk.
+- Timer-Einstellungen liegen in **`%APPDATA%\NEVIOTIX-Timer\state.json`** und bleiben bei Updates erhalten.
+- Die optionale Szenen-Automatik verwendet die bestehende lokale OBS-WebSocket-Konfiguration. Deren Zugangsdaten bleiben auf dem Rechner.
+- Internet ist für Download und Update-Prüfung nötig; der Countdown selbst funktioniert offline.
+
+## Entwicklung
+
+Das Add-on besteht aus JavaScript, HTML, CSS und einem Lua-Skript. Es nutzt die Browser-Dock- und Skript-Funktionen von OBS und benötigt keine zusätzlichen npm-Pakete.
 
 ```text
 npm run check
@@ -63,14 +168,25 @@ npm run package
 
 Der Paketbau verwendet eine feste Dateiliste, sortierte ZIP-Einträge und einen festen Archiv-Zeitstempel. Er erzeugt unter `dist/` das Windows-ZIP, `update-manifest.json` und `SHA256SUMS`.
 
-Für eine neue Version `package.json` und die sichtbare Version in der Dokumentation anpassen, Prüfungen ausführen und einen passenden `vX.Y.Z`-Tag veröffentlichen. Dienst und Starter lesen die Version direkt aus `package.json`. Der Release-Workflow prüft den Tag gegen die Paketversion und lädt die drei Assets zu GitHub Releases hoch.
+Für eine neue Version `package.json` und die sichtbare Version in der Dokumentation anpassen, prüfen und einen passenden `vX.Y.Z`-Tag veröffentlichen. Der Release-Workflow prüft den Tag gegen die Paketversion und veröffentlicht die drei Download-Dateien. Screenshots unter `docs/screenshots/` dienen der GitHub-Dokumentation und sind kein Bestandteil des Windows-Updatepakets.
 
-## English
+<details>
+<summary><strong>English quick start</strong></summary>
 
-NEVIOTIX Timer is a local OBS add-on with an adjustable countdown, transparent overlays, three visual styles, optional scene automation, global OBS hotkeys and a manual GitHub updater. It uses OBS browser docks and Lua scripting rather than a native DLL. It has no runtime npm dependencies.
+NEVIOTIX Timer is a local OBS countdown add-on with transparent overlays, an adjustable browser dock, three visual styles, optional scene automation, OBS hotkeys and manual GitHub updates.
 
-Requirements: Windows, Node.js 24+ and OBS Studio with browser sources. Extract the Windows release ZIP into `%LOCALAPPDATA%\NEVIOTIX-Timer`, run `start.vbs`, add `neviotix-timer.lua` under OBS **Tools → Scripts**, then add the custom browser dock at `http://127.0.0.1:18771/`. Use the overlay URLs above as 600 × 160 browser sources.
+1. Install **Windows OBS Studio** with browser sources and **Node.js 24+**.
+2. Download the **Windows ZIP** from [Releases](https://github.com/Nevio197/neviotix-timer/releases/latest), not the source-code archive. Extract all files directly into `%LOCALAPPDATA%\NEVIOTIX-Timer`.
+3. Run **`start.vbs`**. No terminal window appears. Visit `http://127.0.0.1:18771/` to check that the timer is running.
+4. In OBS, open **Tools → Scripts → +** and add **`neviotix-timer.lua`** from that folder. This starts the service with the current scene collection.
+5. Under **Docks → Custom Browser Docks**, add `NEVIOTIX Timer` with the URL `http://127.0.0.1:18771/`.
+6. Add a **Browser** source to your scene. Leave **Local file** unchecked, set the URL to `http://127.0.0.1:18771/overlay/starting`, and use **600 × 160**. For a break scene, use `/overlay/brb` instead.
+7. Choose a duration in the dock and press **Starten**. Use **Look** to customize the display.
 
-Use the **Updates** tab to check and explicitly install stable releases from this repository. Archive paths and SHA-256 hashes are checked before applying an update. Timer settings and OBS configuration are kept separate. The local service binds only to loopback; OBS credentials are never uploaded.
+The overlay background is transparent. The checkerboard in the screenshots is for preview only. Both overlays share one timer. No account or additional npm packages are required. OBS WebSocket is only needed for optional scene automation. The countdown works offline; downloads and update checks need internet.
 
-Licensed under [MIT](LICENSE).
+</details>
+
+## Lizenz
+
+Veröffentlicht unter der [MIT-Lizenz](LICENSE).
